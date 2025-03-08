@@ -37,9 +37,11 @@ prettyExpr expr = remove(simple expr)
 
 rstep pref expr = reduce pref expr
     where
+    reduce pref (S:a:I:c:ts) = (pref, (a:c:c:ts))         -- Shortening redex S.
     reduce pref (S:a:b:c:ts) = (pref, (a:c:(b:$c):ts))
     reduce pref (K:a:b:ts) = (pref, (a:ts))
     reduce pref (I:a:ts) = (pref, (a:ts))
+    reduce pref (B:a:I:c:ts) = (pref, (a:c:ts))           -- Shortening redex B.
     reduce pref (B:a:b:c:ts) = (pref, (a:(b:$c):ts))
     reduce pref ((a :$ b):ts) = reduce pref (a:b:ts)      -- If front of expression is in bracktes, then unpacking.
     
