@@ -55,7 +55,7 @@ rpath expr = steps Nothing (dig expr) [prettyExpr expr] 0
     steps pref expr list count = 
         let (n_pref, seqe) = rstep pref expr  -- Perform a step
         in 
-        if not (null seqe) && count < 30      -- If number of steps is not exceeded and there is a sequence to reduce.
+        if not (null seqe) && count < 29      -- If number of steps is not exceeded and there is a sequence to reduce.
         then steps n_pref seqe ((normalize n_pref seqe) : list) (count + 1)  
         else rev list []  -- Return reversed list of steps.
 
