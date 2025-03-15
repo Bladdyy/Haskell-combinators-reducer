@@ -19,18 +19,17 @@ add = (B :$ S) :$ (B :$ B)
 
 -- Turning expr to string.
 
-prettyExpr expr = remove(simple expr)
+prettyExpr expr = simple expr ""
     where 
-        simple (a :$ (b :$ c)) = simple a ++ " (" ++ remove (simple (b :$ c)) ++ ")"  -- If right Expr is in brackets it should stay in it.
-        simple (a :$ b) = simple a ++ simple b  -- Simplify both Expr.
-        simple (V a) = " v" ++ show a
-        simple (X) = " x"
-        simple (Z) = " z"
-        simple (S) = " S"
-        simple (K) = " K"
-        simple (I) = " I"
-        simple (B) = " B"
-        remove (x:xs) = xs  -- Removing redundant whitespace from the beginning of the bracket.
+        simple (a :$ (b :$ c)) out = simple a (" (" ++ (simple (b :$ c) (")" ++ out)))  -- If right Expr is in brackets it should stay in it.
+        simple (a :$ b) out = simple a (" " ++ simple b out)  -- Simplify both Expr.
+        simple (V a) out = "v" ++ show a ++ out
+        simple (X) out = "x" ++ out
+        simple (Z) out = "z" ++ out
+        simple (S) out = "S" ++ out
+        simple (K) out = "K" ++ out
+        simple (I) out = "I" ++ out
+        simple (B) out = "B" ++ out
 
 
 -- Performs one reduction step. Pref is a saved prefix which can't be reduced. Expr is expression left to reduce.
